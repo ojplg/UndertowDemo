@@ -11,6 +11,9 @@ public class SimpleWebsocketImpl implements SimpleWebsocket {
 
     public SimpleWebsocketImpl(WebSocketChannel channel){
         this.channel = channel;
+        channel.addCloseTask(
+                this::onClose
+        );
     }
 
     @Override
@@ -21,6 +24,9 @@ public class SimpleWebsocketImpl implements SimpleWebsocket {
     @Override
     public void onMessageReceived(Consumer<String> receiver) {
         channel.getReceiveSetter().set(new WebSocketListener(receiver));
+    }
 
+    private void onClose(WebSocketChannel closed){
+        System.out.println("Closed " + channel + " also known as " + closed);
     }
 }
