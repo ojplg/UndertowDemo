@@ -12,6 +12,7 @@ import io.undertow.websockets.WebSocketProtocolHandshakeHandler;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.Consumer;
 
 public class UndertowDemo {
 
@@ -38,7 +39,9 @@ public class UndertowDemo {
 
             PathHandler myPathHandler = Handlers.path(manager.start());
 
-            WebSocketProtocolHandshakeHandler webSocketHandler = Handlers.websocket(new DemoWebSocketCallback());
+            Consumer<String> receiver = (msg) -> { System.out.println("I got a message " + msg);};
+
+            WebSocketProtocolHandshakeHandler webSocketHandler = Handlers.websocket(new DemoWebSocketCallback(receiver));
 
             myPathHandler.addPrefixPath("/ws", webSocketHandler);
 
@@ -53,6 +56,8 @@ public class UndertowDemo {
             ex.printStackTrace();
             System.exit(-1);
         }
+
+
 
     }
 
