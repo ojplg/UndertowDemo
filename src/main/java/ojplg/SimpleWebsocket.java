@@ -6,5 +6,6 @@ public interface SimpleWebsocket {
 
     void sendMessage(String message);
     void onMessageReceived(Consumer<String> receiver);
+    void onSocketClose(Consumer<SimpleWebsocket> closeHandler);
 
 }

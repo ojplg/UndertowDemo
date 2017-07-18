@@ -40,8 +40,10 @@ public class UndertowDemo {
             PathHandler myPathHandler = Handlers.path(manager.start());
 
             Consumer<String> receiver = (msg) -> { System.out.println("I got a message " + msg);};
+            WebSocketsManager socketsManager = new WebSocketsManager();
+            socketsManager.startHeartbeats();
 
-            WebSocketProtocolHandshakeHandler webSocketHandler = Handlers.websocket(new DemoWebSocketCallback(receiver));
+            WebSocketProtocolHandshakeHandler webSocketHandler = Handlers.websocket(new DemoWebSocketCallback(socketsManager, receiver));
 
             myPathHandler.addPrefixPath("/ws", webSocketHandler);
 
