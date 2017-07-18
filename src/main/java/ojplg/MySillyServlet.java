@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MySillyServlet extends HttpServlet {
 
-    public static final String MESSAGE = "message";
+    static final String MESSAGE = "message";
 
     private String message;
 

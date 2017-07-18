@@ -8,15 +8,16 @@ import io.undertow.websockets.spi.WebSocketHttpExchange;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class DemoWebSocketCallback implements WebSocketConnectionCallback {
 
     private final List<WebSocketChannel> channelList = new ArrayList<>();
-    private final Thread thread;
     private int count = 0;
 
     public DemoWebSocketCallback(){
         System.out.println("Constructing a DemoWebSocketCallback");
-        thread = new Thread(() -> {
+        Thread thread = new Thread(() -> {
             while(true) {
                 count++;
                 System.out.println("Server count is " + count + " and there are " + channelList.size() + " open channels");

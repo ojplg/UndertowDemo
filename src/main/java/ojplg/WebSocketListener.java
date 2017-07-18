@@ -4,9 +4,9 @@ import io.undertow.websockets.core.AbstractReceiveListener;
 import io.undertow.websockets.core.BufferedTextMessage;
 import io.undertow.websockets.core.WebSocketChannel;
 
-public class WebSocketListener extends AbstractReceiveListener {
+class WebSocketListener extends AbstractReceiveListener {
 
-    public WebSocketListener(){
+    WebSocketListener(){
         System.out.println("Constructing a web socket listener");
     }
 
@@ -16,6 +16,5 @@ public class WebSocketListener extends AbstractReceiveListener {
         System.out.println("Received message from browser.  Channel was: "
                 + channel + " Message: " + messageData);
     }
-
 
 }

@@ -8,17 +8,10 @@ import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.core.InMemorySessionManagerFactory;
-import io.undertow.websockets.WebSocketConnectionCallback;
 import io.undertow.websockets.WebSocketProtocolHandshakeHandler;
-import io.undertow.websockets.core.WebSocketChannel;
-import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static io.undertow.Handlers.path;
-import static io.undertow.Handlers.websocket;
-
 
 public class UndertowDemo {
 
@@ -37,7 +30,7 @@ public class UndertowDemo {
                     .setSessionManagerFactory(new InMemorySessionManagerFactory())
                     .setResourceManager(staticResources)
                     .addServlet(Servlets.servlet("MyServlet", MySillyServlet.class)
-                            .addInitParam("message", "Somehing silly to show the user")
+                            .addInitParam(MySillyServlet.MESSAGE, "Somehing silly to show the user")
                             .addMapping("/myservlet"));
 
             DeploymentManager manager = Servlets.defaultContainer().addDeployment(servletBuilder);
