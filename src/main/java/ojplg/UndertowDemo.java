@@ -30,6 +30,7 @@ public class UndertowDemo {
                     .setContextPath("/")
                     .setDeploymentName("sv.war")
                     .setSessionManagerFactory(new InMemorySessionManagerFactory())
+                    .addWelcomePage("index.html")
                     .setResourceManager(staticResources);
 
             ServletInfo servletInfo = Servlets.servlet("MyServlet", MySillyServlet.class, new SillyServletFactory());
