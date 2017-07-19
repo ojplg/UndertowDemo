@@ -26,8 +26,13 @@ public class MySillyServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("SillyServlet.doGet");
+
+        String pathInfo = req.getPathInfo();
+
+        String responseString = handlePath(pathInfo);
+
         PrintWriter writer = resp.getWriter();
-        writer.write(message);
+        writer.write(responseString);
         writer.close();
     }
 
@@ -35,4 +40,16 @@ public class MySillyServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
     }
+
+    private String handlePath(String pathInfo){
+        switch(pathInfo) {
+            case "/foo":
+                return "In the foo branch: " + message;
+            case "/bar":
+                return "In the bar branch: " + message;
+            default:
+                return "In unrecognized path (" + pathInfo + ")";
+        }
+    }
+
 }

@@ -33,7 +33,7 @@ public class UndertowDemo {
                     .setResourceManager(staticResources);
 
             ServletInfo servletInfo = Servlets.servlet("MyServlet", MySillyServlet.class, new SillyServletFactory());
-            servletInfo.addMapping("/myservlet");
+            servletInfo.addMapping("/myservlet/*");
             servletInfo.addInitParam(MySillyServlet.MESSAGE, "Something from the factory");
             servletBuilder.addServlet(servletInfo);
 
