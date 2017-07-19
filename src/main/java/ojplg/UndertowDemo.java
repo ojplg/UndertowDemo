@@ -37,7 +37,8 @@ public class UndertowDemo {
             // Create a servlet info for dynamic content
             // Using a factory allows us to own servlet creation
             // and set collaborators into the servlet implementation
-            ServletInfo servletInfo = Servlets.servlet("MyServlet", MySillyServlet.class, new SillyServletFactory());
+            String specialMessage = "You found the secret message!";
+            ServletInfo servletInfo = Servlets.servlet("MyServlet", MySillyServlet.class, new SillyServletFactory(specialMessage));
             servletInfo.addMapping("/myservlet/*");
             servletInfo.addInitParam(MySillyServlet.MESSAGE, "Something from the factory");
             deploymentInfo.addServlet(servletInfo);

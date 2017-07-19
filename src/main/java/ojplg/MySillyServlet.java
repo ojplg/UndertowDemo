@@ -14,6 +14,11 @@ public class MySillyServlet extends HttpServlet {
     static final String MESSAGE = "message";
 
     private String message;
+    private String specialMessage;
+
+    public MySillyServlet(String specialMessage){
+        this.specialMessage = specialMessage;
+    }
 
     @Override
     public void init(final ServletConfig config) throws ServletException {
@@ -46,7 +51,7 @@ public class MySillyServlet extends HttpServlet {
             case "/foo":
                 return "In the foo branch: " + message;
             case "/bar":
-                return "In the bar branch: " + message;
+                return "In the bar branch: " + message + " AND " + specialMessage;
             default:
                 return "In unrecognized path (" + pathInfo + ")";
         }
