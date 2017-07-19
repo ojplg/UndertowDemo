@@ -20,7 +20,7 @@ public class UndertowDemo {
     public static void main(String[] args){
 
         try {
-            System.out.println("Starting");
+            System.out.println("Beginning configuration");
 
             // Create a minimum DeploymentInfo. These settings are required.
             DeploymentInfo deploymentInfo = Servlets.deployment()
@@ -68,6 +68,7 @@ public class UndertowDemo {
                     .addHttpListener(8080, "localhost")
                     .setHandler(myPathHandler)
                     .build();
+            System.out.println("Starting undertow server ... ");
             server.start();
 
         } catch (Exception ex){
