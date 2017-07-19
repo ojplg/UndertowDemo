@@ -38,7 +38,8 @@ public class UndertowDemo {
             // Using a factory allows us to own servlet creation
             // and set collaborators into the servlet implementation
             String specialMessage = "You found the secret message!";
-            ServletInfo servletInfo = Servlets.servlet("MyServlet", MySillyServlet.class, new SillyServletFactory(specialMessage));
+            SillyServletFactory servletFactory = new SillyServletFactory(specialMessage);
+            ServletInfo servletInfo = Servlets.servlet("MyServlet", MySillyServlet.class, servletFactory);
             servletInfo.addMapping("/myservlet/*");
             servletInfo.addInitParam(MySillyServlet.MESSAGE, "Something from the factory");
             deploymentInfo.addServlet(servletInfo);
@@ -52,7 +53,7 @@ public class UndertowDemo {
             // Create a web socket handler
             // Similar to the servlet creation, we use a factory mechanism
             // to allow control over the creation process for web socket connections
-            Consumer<String> receiver = (msg) -> { System.out.println("I got a message " + msg);};
+            Consumer<String> receiver = (msg) -> System.out.println("I got a message " + msg);
             WebSocketsManager socketsManager = new WebSocketsManager();
             socketsManager.startHeartbeats();
             WebSocketProtocolHandshakeHandler webSocketHandler = Handlers.websocket(new DemoWebSocketCallback(socketsManager, receiver));

@@ -8,6 +8,7 @@ public class WebSocketsManager {
 
     private final List<SimpleWebsocket> sockets = Collections.synchronizedList(new ArrayList<>());
     private int heartbeatCount;
+    private boolean running = true;
 
     public void broadcastGlobalMessage(String message){
         sockets.forEach(s->s.sendMessage(message));
@@ -19,22 +20,24 @@ public class WebSocketsManager {
 
     public void addSocket(SimpleWebsocket socket){
         sockets.add(socket);
-        socket.onSocketClose( ws -> this.sockets.remove(ws));
+        socket.onSocketClose(sockets::remove);
     }
 
     public void startHeartbeats(){
         Thread thread = new Thread(() -> {
-            while(true) {
+            while(running) {
                 heartbeatCount++;
                 System.out.println("Heartbeat count is " + heartbeatCount + " and there are " + currentOpenSocketsCount() + " open channels");
                 broadcastGlobalMessage("Server heartbeat " + heartbeatCount);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ie) {
+                    // ignore
                 }
             }
         });
         thread.start();
         System.out.println("Heartbeats started");
     }
+
 }

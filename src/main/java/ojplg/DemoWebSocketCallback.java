@@ -6,7 +6,6 @@ import io.undertow.websockets.spi.WebSocketHttpExchange;
 
 import java.util.function.Consumer;
 
-
 public class DemoWebSocketCallback implements WebSocketConnectionCallback {
 
     private final Consumer<String> onMessageHandler;
