@@ -1,14 +1,24 @@
 package ojplg;
 
+import io.undertow.websockets.WebSocketConnectionCallback;
+import io.undertow.websockets.core.WebSocketChannel;
+import io.undertow.websockets.spi.WebSocketHttpExchange;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class WebSocketsManager {
+public class WebSocketsManager implements WebSocketConnectionCallback {
 
     private final List<SimpleWebsocket> sockets = Collections.synchronizedList(new ArrayList<>());
+    private final Consumer<String> onMessageHandler;
     private int heartbeatCount;
     private boolean running = true;
+
+    public WebSocketsManager(Consumer<String> onMessageHandler) {
+        this.onMessageHandler = onMessageHandler;
+    }
 
     public void broadcastGlobalMessage(String message){
         sockets.forEach(s->s.sendMessage(message));
@@ -18,9 +28,19 @@ public class WebSocketsManager {
         return sockets.size();
     }
 
-    public void addSocket(SimpleWebsocket socket){
+    private void addSocket(SimpleWebsocket socket){
         sockets.add(socket);
         socket.onSocketClose(sockets::remove);
+    }
+
+    @Override
+    public void onConnect(WebSocketHttpExchange webSocketHttpExchange, WebSocketChannel webSocketChannel) {
+        System.out.println("New web socket connection from " + webSocketChannel.getPeerAddress());
+        SimpleWebsocketImpl webSocket = new SimpleWebsocketImpl(webSocketChannel);
+        addSocket(webSocket);
+        webSocket.onMessageReceived(onMessageHandler);
+        webSocketChannel.resumeReceives();
+        webSocket.sendMessage("Welcome to the service!");
     }
 
     public void startHeartbeats(){

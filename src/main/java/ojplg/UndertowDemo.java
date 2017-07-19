@@ -54,9 +54,9 @@ public class UndertowDemo {
             // Similar to the servlet creation, we use a factory mechanism
             // to allow control over the creation process for web socket connections
             Consumer<String> receiver = (msg) -> System.out.println("I got a message " + msg);
-            WebSocketsManager socketsManager = new WebSocketsManager();
+            WebSocketsManager socketsManager = new WebSocketsManager(receiver);
             socketsManager.startHeartbeats();
-            WebSocketProtocolHandshakeHandler webSocketHandler = Handlers.websocket(new DemoWebSocketCallback(socketsManager, receiver));
+            WebSocketProtocolHandshakeHandler webSocketHandler = Handlers.websocket(socketsManager);
 
             // Attach the web socket handler to the handled paths
             PathHandler myPathHandler = Handlers.path(httpHandler);
