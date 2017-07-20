@@ -11,9 +11,7 @@ function start(){
 }
 
 function sendMessage(){
-    console.log('About to send a message');
     var textArea = document.getElementById("text_to_send");
-
     var text = textArea.value;
     console.log("Sending " + text);
     socket.send(text);
